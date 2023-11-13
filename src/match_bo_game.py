@@ -2,6 +2,7 @@ import sys
 import random
 import pygame
 from pygame.locals import *
+from random import random
 
 # ゲーム画面を初期化 --- (*1)
 pygame.init()
@@ -11,7 +12,7 @@ black = (0, 0, 0)
 # フォントの初期化
 font = pygame.font.Font(None, 36)  # デフォルトのフォント、サイズ36
 # 配列を文字列に変換
-match_value = [[1, 2], [3, 4]]
+match_value = [[1, 1], [1, 1]]
 text = "(" +  str(match_value[0][0]) + ", " +  str(match_value[0][1]) + ") : (" + str(match_value[1][0])  + ", " + str(match_value[1][1]) + ")"
 
 # 文字列を描画
@@ -20,14 +21,81 @@ text_surface = font.render(text, True, (255, 255, 255))  # 白色の文字
 # 文字列の位置
 text_rect = text_surface.get_rect()
 text_rect.center = (screen_width // 2, screen_height // 2)
+# ゲームループ
+clock = pygame.time.Clock()  # クロックオブジェクトの初期化
+fps = 1  # フレームレートの設定
+
+def attack_random(attack_player_num, receive_player_num):
+  attack_hand_num = 0
+  
+  # 自分のどちらの手で攻撃するかの決定
+  if (random() < 0.5):
+    attack_hand_number = 0
+  else :
+    attack_hand_num = 1
+
+  # 相手のどちらかの手を攻撃するかの決定と攻撃
+  if (random() < 0.5) :
+    match_value[receive_player_num][0] += match_value[attack_player_num][attack_hand_num]
+  else:
+    match_value[receive_player_num][1] += match_value[attack_player_num][attack_hand_num]
+  
+  """
+    // 自分のどちらの手で攻撃するかの決定
+    // どちらかの自分の手が5以上の場合
+    if (matchValue[attackSideNumber][0] >= 5) {
+      attackHandNumber = 1;
+    }
+    else if (matchValue[attackSideNumber][1] >= 5) {
+      attackHandNumber = 0;
+    }
+    // どちらの自分の手も5未満の場合
+    // 0で攻撃する場合
+    else if (p.random() < 0.5) {
+      attackHandNumber = 0;
+    }
+    // 1で攻撃する場合
+    else {
+      attackHandNumber = 1;
+    }
+
+    // 相手のどちらかの手を攻撃するかの決定と攻撃
+    // どちらかの相手の手が5以上の場合
+    if (matchValue[receiveSideNumber][0] >= 5) {
+      matchValue[receiveSideNumber][1] += matchValue[attackSideNumber][attackHandNumber];
+    }
+    else if (matchValue[receiveSideNumber][1] >= 5) {
+      matchValue[receiveSideNumber][0] += matchValue[attackSideNumber][attackHandNumber];
+    }
+    // どちらの自分の手も5未満の場合
+    // 0を攻撃する場合
+    else if (p.random() < 0.5) {
+      matchValue[receiveSideNumber][0] += matchValue[attackSideNumber][attackHandNumber];
+    }
+    // 1を攻撃する場合
+    else {
+      matchValue[receiveSideNumber][1] += matchValue[attackSideNumber][attackHandNumber];
+    }
+  """
 
 
 # 繰り返し画面を描画 --- (*2)
 while True:
     # 背景と円を描画 --- (*3)
     screen.fill(black)  # 背景を黒で塗りつぶす
-    # pygame.draw.circle(screen, white, (300, 200), 150)  # 円を描画
     screen.blit(text_surface, text_rect)
+    attack_random(0, 1)
+    attack_random(1, 0)
+    
+    # フレームレートを制御
+    clock.tick(fps)
+    # 表示テキストの更新
+    text = "(" +  str(match_value[0][0]) + ", " +  str(match_value[0][1]) + ") : (" + str(match_value[1][0])  + ", " + str(match_value[1][1]) + ")"
+    # 文字列を描画
+    text_surface = font.render(text, True, (255, 255, 255))  # 白色の文字
+    # 文字列の位置
+    text_rect = text_surface.get_rect()
+    text_rect.center = (screen_width // 2, screen_height // 2)
     
     # 画面を更新 --- (*4)
     pygame.display.update()
@@ -37,5 +105,3 @@ while True:
             pygame.quit()
             sys.exit()
 
-def add(a, b):
-  return a + b

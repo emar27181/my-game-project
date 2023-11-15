@@ -4,30 +4,49 @@ import pygame
 from pygame.locals import *
 from random import random
 
-# ゲーム画面を初期化 --- (*1)
+match_value = [[1, 1], [1, 1]]
 
 def main(): 
+  # ゲーム画面を初期化
   pygame.init()
   screen_width, screen_height = 800, 600
   screen = pygame.display.set_mode((screen_width, screen_height))
   black = (0, 0, 0)
-  # フォントの初期化
+  
+  # 表示テキストの初期化
   font = pygame.font.Font(None, 36)  # デフォルトのフォント、サイズ36
-  # 配列を文字列に変換
-  match_value = [[1, 1], [1, 1]]
   text = "(" +  str(match_value[0][0]) + ", " +  str(match_value[0][1]) + ") : (" + str(match_value[1][0])  + ", " + str(match_value[1][1]) + ")"
-
-  # 文字列を描画
   text_surface = font.render(text, True, (255, 255, 255))  # 白色の文字
-
-  # 文字列の位置
   text_rect = text_surface.get_rect()
   text_rect.center = (screen_width // 2, screen_height // 2)
-  # ゲームループ
   clock = pygame.time.Clock()  # クロックオブジェクトの初期化
   fps = 1  # フレームレートの設定
-
-  def attack_random(attack_player_num, receive_player_num):
+  
+  # 繰り返し画面を描画 
+  while True:
+      screen.fill(black)  
+      screen.blit(text_surface, text_rect)
+      attack_random(0, 1)
+      attack_random(1, 0)
+      
+      clock.tick(fps)
+      
+      # 表示テキストの更新
+      text = "(" +  str(match_value[0][0]) + ", " +  str(match_value[0][1]) + ") : (" + str(match_value[1][0])  + ", " + str(match_value[1][1]) + ")"
+      text_surface = font.render(text, True, (255, 255, 255))  # 白色の文字
+      text_rect = text_surface.get_rect()
+      text_rect.center = (screen_width // 2, screen_height // 2)
+      
+      # 画面を更新 
+      pygame.display.update()
+      
+      # 終了イベントを確認 
+      for event in pygame.event.get():
+          if event.type == QUIT:
+              pygame.quit()
+              sys.exit()
+              
+def attack_random(attack_player_num, receive_player_num):
     attack_hand_num = 0
     
     # 自分のどちらの手で攻撃するかの決定
@@ -79,33 +98,6 @@ def main():
         matchValue[receiveSideNumber][1] += matchValue[attackSideNumber][attackHandNumber];
       }
     """
-
-
-  # 繰り返し画面を描画 --- (*2)
-  while True:
-      # 背景と円を描画 --- (*3)
-      screen.fill(black)  # 背景を黒で塗りつぶす
-      screen.blit(text_surface, text_rect)
-      attack_random(0, 1)
-      attack_random(1, 0)
-      
-      # フレームレートを制御
-      clock.tick(fps)
-      # 表示テキストの更新
-      text = "(" +  str(match_value[0][0]) + ", " +  str(match_value[0][1]) + ") : (" + str(match_value[1][0])  + ", " + str(match_value[1][1]) + ")"
-      # 文字列を描画
-      text_surface = font.render(text, True, (255, 255, 255))  # 白色の文字
-      # 文字列の位置
-      text_rect = text_surface.get_rect()
-      text_rect.center = (screen_width // 2, screen_height // 2)
-      
-      # 画面を更新 --- (*4)
-      pygame.display.update()
-      # 終了イベントを確認 --- (*5)
-      for event in pygame.event.get():
-          if event.type == QUIT:
-              pygame.quit()
-              sys.exit()
               
 if __name__ == "__main__":
     main()

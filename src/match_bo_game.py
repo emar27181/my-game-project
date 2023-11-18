@@ -7,6 +7,10 @@ from random import random
 match_value = [[1, 1], [1, 1]]
 winner_number = -1
 
+player0_win_count = 0
+player1_win_count = 0
+  
+
 def main(): 
   # ゲーム画面を初期化
   pygame.init()
@@ -21,9 +25,8 @@ def main():
   text_rect = text_surface.get_rect()
   text_rect.center = (screen_width // 2, screen_height // 2)
   clock = pygame.time.Clock()  # クロックオブジェクトの初期化
-  fps = 1  # フレームレートの設定
+  fps = 60  # フレームレートの設定
   turn_count = 1
-  
   # 繰り返し画面を描画 
   while True:
       screen.fill(black)  
@@ -43,6 +46,7 @@ def main():
         match_value[1][1] = 1
         #match_value = [[1,1], [1,1]]
         #print("winner is player: " +  str(winner_number))
+        print("player0_win: " + str(player0_win_count) + ", player1_win: " + str(player1_win_count))
       
       clock.tick(fps)
       
@@ -65,14 +69,20 @@ def main():
               pygame.quit()
               sys.exit()
               
+              
 def is_game_looped():
+  global player0_win_count
+  global player1_win_count
+  global winner_number
   if((match_value[0][0] >= 5) & (match_value[0][1] >= 5)):
     print("winner is player: 1")
-    winer_number = 1
+    winner_number = 1
+    player0_win_count += 1
     return False
   elif ((match_value[1][0] >= 5) & (match_value[1][1] >= 5)):
     print("winner is player: 0")
     winner_number = 0
+    player1_win_count += 1
     return False
   else:
     return True

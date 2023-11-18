@@ -55,23 +55,23 @@ def attack_random(attack_player_num, receive_player_num):
     attack_hand_num = 0
     
     # 自分のどちらの手で攻撃するかの決定
-    if  (match_value[attack_player_num][0] >= 5):
-      attack_hand_number = 1
+    if(match_value[attack_player_num][0] >= 5):
+      attack_hand_num = 1
     elif(match_value[attack_player_num][1] >= 5):
-      attack_hand_number = 0
+      attack_hand_num = 0
     
-    elif (random() < 0.5):
-      attack_hand_number = 0
+    elif(random() < 0.5):
+      attack_hand_num= 0
     else :
       attack_hand_num = 1
 
     # 相手のどちらかの手を攻撃するかの決定と攻撃
     if (match_value[receive_player_num][0] >= 5):
       match_value[receive_player_num][1] += match_value[attack_player_num][attack_hand_num]
-    if (match_value[receive_player_num][1] >= 5):
+    elif (match_value[receive_player_num][1] >= 5):
       match_value[receive_player_num][0] += match_value[attack_player_num][attack_hand_num]
       
-    if (random() < 0.5) :
+    elif (random() < 0.5) :
       match_value[receive_player_num][0] += match_value[attack_player_num][attack_hand_num]
     else:
       match_value[receive_player_num][1] += match_value[attack_player_num][attack_hand_num]

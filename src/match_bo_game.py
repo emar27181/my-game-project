@@ -42,7 +42,7 @@ def main():
         match_value[1][0] = 1
         match_value[1][1] = 1
         #match_value = [[1,1], [1,1]]
-        # print("winner is player" + winner_number)
+        #print("winner is player: " +  str(winner_number))
       
       clock.tick(fps)
       
@@ -67,9 +67,11 @@ def main():
               
 def is_game_looped():
   if((match_value[0][0] >= 5) & (match_value[0][1] >= 5)):
-    winner_number = 1
+    print("winner is player: 1")
+    winer_number = 1
     return False
   elif ((match_value[1][0] >= 5) & (match_value[1][1] >= 5)):
+    print("winner is player: 0")
     winner_number = 0
     return False
   else:

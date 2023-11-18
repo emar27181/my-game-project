@@ -5,6 +5,7 @@ from pygame.locals import *
 from random import random
 
 match_value = [[1, 1], [1, 1]]
+winer_number = -1
 
 def main(): 
   # ゲーム画面を初期化
@@ -28,13 +29,18 @@ def main():
       screen.fill(black)  
       screen.blit(text_surface, text_rect)
       
-      if (turn_count % 2 == 1):
-        attack_random(0, 1)
-      else:
-        attack_random(1, 0)
-      turn_count += 1
+      if(is_game_looped()):
+        if (turn_count % 2 == 1):
+          attack_random(0, 1)
+        else:
+          attack_random(1, 0)
+        turn_count += 1
       
       clock.tick(fps)
+      
+      # 確認用出力
+      #print(winer_number)
+      print (match_value)
       
       # 表示テキストの更新
       text = "(" +  str(match_value[0][0]) + ", " +  str(match_value[0][1]) + ") : (" + str(match_value[1][0])  + ", " + str(match_value[1][1]) + ")"
@@ -51,6 +57,16 @@ def main():
               pygame.quit()
               sys.exit()
               
+def is_game_looped():
+  if((match_value[0][0] >= 5) & (match_value[0][1] >= 5)):
+    winer_number = 1
+    return False
+  elif ((match_value[1][0] >= 5) & (match_value[1][1] >= 5)):
+    winer_number = 0
+    return False
+  else:
+    return True
+  
 def attack_random(attack_player_num, receive_player_num):
     attack_hand_num = 0
     

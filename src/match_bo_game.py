@@ -21,13 +21,18 @@ def main():
   text_rect.center = (screen_width // 2, screen_height // 2)
   clock = pygame.time.Clock()  # クロックオブジェクトの初期化
   fps = 1  # フレームレートの設定
+  turn_count = 1
   
   # 繰り返し画面を描画 
   while True:
       screen.fill(black)  
       screen.blit(text_surface, text_rect)
-      attack_random(0, 1)
-      attack_random(1, 0)
+      
+      if (turn_count % 2 == 1):
+        attack_random(0, 1)
+      else:
+        attack_random(1, 0)
+      turn_count += 1
       
       clock.tick(fps)
       

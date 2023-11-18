@@ -5,7 +5,7 @@ from pygame.locals import *
 from random import random
 
 match_value = [[1, 1], [1, 1]]
-winer_number = -1
+winner_number = -1
 
 def main(): 
   # ゲーム画面を初期化
@@ -35,6 +35,14 @@ def main():
         else:
           attack_random(1, 0)
         turn_count += 1
+      else:
+        turn_count = 1
+        match_value[0][0] = 1
+        match_value[0][1] = 1
+        match_value[1][0] = 1
+        match_value[1][1] = 1
+        #match_value = [[1,1], [1,1]]
+        # print("winner is player" + winner_number)
       
       clock.tick(fps)
       
@@ -59,10 +67,10 @@ def main():
               
 def is_game_looped():
   if((match_value[0][0] >= 5) & (match_value[0][1] >= 5)):
-    winer_number = 1
+    winner_number = 1
     return False
   elif ((match_value[1][0] >= 5) & (match_value[1][1] >= 5)):
-    winer_number = 0
+    winner_number = 0
     return False
   else:
     return True

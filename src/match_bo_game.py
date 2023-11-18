@@ -75,45 +75,7 @@ def attack_random(attack_player_num, receive_player_num):
       match_value[receive_player_num][0] += match_value[attack_player_num][attack_hand_num]
     else:
       match_value[receive_player_num][1] += match_value[attack_player_num][attack_hand_num]
-    
-    """
-      // 自分のどちらの手で攻撃するかの決定
-      // どちらかの自分の手が5以上の場合
-      if (matchValue[attackSideNumber][0] >= 5) {
-        attackHandNumber = 1;
-      }
-      else if (matchValue[attackSideNumber][1] >= 5) {
-        attackHandNumber = 0;
-      }
-      // どちらの自分の手も5未満の場合
-      // 0で攻撃する場合
-      else if (p.random() < 0.5) {
-        attackHandNumber = 0;
-      }
-      // 1で攻撃する場合
-      else {
-        attackHandNumber = 1;
-      }
 
-      // 相手のどちらかの手を攻撃するかの決定と攻撃
-      // どちらかの相手の手が5以上の場合
-      if (matchValue[receiveSideNumber][0] >= 5) {
-        matchValue[receiveSideNumber][1] += matchValue[attackSideNumber][attackHandNumber];
-      }
-      else if (matchValue[receiveSideNumber][1] >= 5) {
-        matchValue[receiveSideNumber][0] += matchValue[attackSideNumber][attackHandNumber];
-      }
-      // どちらの自分の手も5未満の場合
-      // 0を攻撃する場合
-      else if (p.random() < 0.5) {
-        matchValue[receiveSideNumber][0] += matchValue[attackSideNumber][attackHandNumber];
-      }
-      // 1を攻撃する場合
-      else {
-        matchValue[receiveSideNumber][1] += matchValue[attackSideNumber][attackHandNumber];
-      }
-    """
-              
 if __name__ == "__main__":
     main()
 

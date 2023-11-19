@@ -1,3 +1,4 @@
+import json
 import sys
 import random
 import pygame
@@ -35,6 +36,7 @@ def main():
       screen.fill(black)  
       screen.blit(text_surface, text_rect)
       
+      # ゲームが続いている場合
       if(is_game_looped()):
         if (turn_count % 2 == 1):
           attack_random(0, 1)
@@ -43,9 +45,11 @@ def main():
           #attack_random(1, 0)
           attack_heuristic(1, 0)
         turn_count += 1
+      # ゲームが終わっている場合
       else:
         text_score = "player0 win rate = " + str(player0_win_count / (player0_win_count + player1_win_count) * 100) + ", player1 win rate = " + str(player1_win_count / (player0_win_count + player1_win_count) * 100)
         print(text_score)
+        save_score()
         reset_game()
       
       clock.tick(fps)
@@ -151,6 +155,22 @@ def attack_heuristic(attack_player_num, receive_player_num):
       match_value[receive_player_num][0] += match_value[attack_player_num][attack_hand_num]
     else: 
       match_value[receive_player_num][1] += match_value[attack_player_num][attack_hand_num]
+      
+def save_score():
+    #json形式への書き出しと保存
+  new_data = {
+      #"match_value": match_value,
+      "match_sum: ": player0_win_count + player1_win_count, 
+      "player0_win": player1_win_count,
+      "player1_win": player1_win_count
+  }
+
+  with open('data/result.json', 'r') as json_file:
+      data = json.load(json_file)
+      data.append(new_data)
+
+  with open('data/result.json', 'w') as json_file:
+      json.dump(data, json_file, indent=2)
 
 if __name__ == "__main__":
     main()

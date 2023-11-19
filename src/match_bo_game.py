@@ -32,6 +32,7 @@ def main():
   clock = pygame.time.Clock()  # クロックオブジェクトの初期化
   fps = 60  # フレームレートの設定
   global turn_count
+  heuristic_player_number = 0
   
   # 繰り返し画面を描画 
   while True:
@@ -40,19 +41,26 @@ def main():
       
       # ゲームが続いている場合
       if(is_game_looped()):
+        # 先攻プレイヤーの行動
         if (turn_count % 2 == 1):
-          attack_random(0, 1)
-          # attack_heuristic(0, 1)
+          if(heuristic_player_number == 0):
+            attack_heuristic(0, 1)
+          else:
+            attack_random(0, 1)
           print (str(match_value[0]) +"->" + str(match_value[1]))
+        # 後攻プレイヤーの行動
         else:
-          #attack_random(1, 0)
-          attack_heuristic(1, 0)
+          if(heuristic_player_number == 1):
+            attack_heuristic(1, 0)
+          else:
+            attack_random(1, 0)
           print (str(match_value[0]) +"<-" + str(match_value[1]))
         turn_count += 1
       # ゲームが終わっている場合
       else:
         text_score = "player0 win rate = " + str(player0_win_count / (player0_win_count + player1_win_count) * 100) + ", player1 win rate = " + str(player1_win_count / (player0_win_count + player1_win_count) * 100)
         # print(text_score)
+        print("winner is player: " + str(winner_number) + " (heuristic is player: " + str(heuristic_player_number)) + ")"
         save_score()
         reset_game()
       
@@ -93,16 +101,18 @@ def is_game_looped():
   global player0_win_count
   global player1_win_count
   global winner_number
+  
+  
   if((match_value[0][0] >= 5) & (match_value[0][1] >= 5)):
-    print("winner is player: 1")
     winner_number = 1
     player0_win_count += 1
     return False
+  
   elif ((match_value[1][0] >= 5) & (match_value[1][1] >= 5)):
-    print("winner is player: 0")
     winner_number = 0
     player1_win_count += 1
     return False
+  
   else:
     return True
   

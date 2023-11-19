@@ -67,11 +67,10 @@ def main():
       # ゲームが終わっている場合
       else:
         text_score = "player0 win rate = " + str(player0_win_count / (player0_win_count + player1_win_count) * 100) + ", player1 win rate = " + str(player1_win_count / (player0_win_count + player1_win_count) * 100)
-        # print(text_score)
         print("winner is player: " + str(winner_number) + " (heuristic is player: " + str(heuristic_player_number) + ")")
         # save_score()
         save_log()
-        reset_game()
+        initialize_variables()
       
       clock.tick(fps)
       
@@ -97,7 +96,7 @@ def main():
               sys.exit()
               
               
-def reset_game():
+def initialize_variables():
   global turn_count
   global new_log
   turn_count = 1

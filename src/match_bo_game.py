@@ -22,7 +22,9 @@ def main():
   black = (0, 0, 0)
   
   # 表示テキストの初期化
-  font = pygame.font.Font(None, 36)  # デフォルトのフォント、サイズ36
+  # font_path = pygame.font.match_font('arial')
+  font_path = pygame.font.match_font('arialunicodems')
+  font = pygame.font.Font(font_path, 36)  # デフォルトのフォント、サイズ36
   text = "(" +  str(match_value[0][0]) + ", " +  str(match_value[0][1]) + ") : (" + str(match_value[1][0])  + ", " + str(match_value[1][1]) + ")"
   text_surface = font.render(text, True, (255, 255, 255))  # 白色の文字
   text_rect = text_surface.get_rect()
@@ -41,28 +43,26 @@ def main():
         if (turn_count % 2 == 1):
           attack_random(0, 1)
           # attack_heuristic(0, 1)
+          print (str(match_value[0]) +"->" + str(match_value[1]))
         else:
           #attack_random(1, 0)
           attack_heuristic(1, 0)
+          print (str(match_value[0]) +"<-" + str(match_value[1]))
         turn_count += 1
       # ゲームが終わっている場合
       else:
         text_score = "player0 win rate = " + str(player0_win_count / (player0_win_count + player1_win_count) * 100) + ", player1 win rate = " + str(player1_win_count / (player0_win_count + player1_win_count) * 100)
-        print(text_score)
+        # print(text_score)
         save_score()
         reset_game()
       
       clock.tick(fps)
       
-      # 確認用出力
-      # print(winer_number)
-      # print(turn_count)
-      # print (match_value)
       
       # 表示テキストの更新
       text = "(" +  str(match_value[0][0]) + ", " +  str(match_value[0][1]) + ") : (" + str(match_value[1][0])  + ", " + str(match_value[1][1]) + ")"
       if((player1_win_count != 0) & (player0_win_count != 0)):
-        text_score = "| player0 win: " + str(math.floor(player0_win_count / (player0_win_count + player1_win_count) * 100)) + "%, player1 win: " + str(math.floor(player1_win_count / (player0_win_count + player1_win_count) * 100)) + "%"
+        text_score = "\nplayer0 win(" +str(player0_win_count) + "): " + str(math.floor(player0_win_count / (player0_win_count + player1_win_count) * 100)) + "%, player1 win("+ str(player1_win_count) +"): " + str(math.floor(player1_win_count / (player0_win_count + player1_win_count) * 100)) + "%"
         text = text + text_score
       text_surface = font.render(text, True, (255, 255, 255))  # 白色の文字
       text_rect = text_surface.get_rect()
@@ -87,19 +87,19 @@ def reset_game():
   match_value[1][1] = 1
   #match_value = [[1,1], [1,1]]
   #print("winner is player: " +  str(winner_number))
-  print("player0_win: " + str(player0_win_count) + ", player1_win: " + str(player1_win_count))
+  #print("player0_win: " + str(player0_win_count) + ", player1_win: " + str(player1_win_count))
               
 def is_game_looped():
   global player0_win_count
   global player1_win_count
   global winner_number
   if((match_value[0][0] >= 5) & (match_value[0][1] >= 5)):
-    # print("winner is player: 1")
+    print("winner is player: 1")
     winner_number = 1
     player0_win_count += 1
     return False
   elif ((match_value[1][0] >= 5) & (match_value[1][1] >= 5)):
-    # print("winner is player: 0")
+    print("winner is player: 0")
     winner_number = 0
     player1_win_count += 1
     return False

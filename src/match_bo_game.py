@@ -44,14 +44,16 @@ def main():
         # 先攻プレイヤーの行動
         if (turn_count % 2 == 1):
           if(heuristic_player_number == 0):
-            attack_heuristic(0, 1)
+            # attack_heuristic(0, 1)
+            attack_heuristic_save_life(0, 1)
           else:
             attack_random(0, 1)
           print (str(match_value[0]) +"->" + str(match_value[1]))
         # 後攻プレイヤーの行動
         else:
           if(heuristic_player_number == 1):
-            attack_heuristic(1, 0)
+            # attack_heuristic(1, 0)
+            attack_heuristic_save_life(1, 0)
           else:
             attack_random(1, 0)
           print (str(match_value[0]) +"<-" + str(match_value[1]))
@@ -60,7 +62,7 @@ def main():
       else:
         text_score = "player0 win rate = " + str(player0_win_count / (player0_win_count + player1_win_count) * 100) + ", player1 win rate = " + str(player1_win_count / (player0_win_count + player1_win_count) * 100)
         # print(text_score)
-        print("winner is player: " + str(winner_number) + " (heuristic is player: " + str(heuristic_player_number)) + ")"
+        print("winner is player: " + str(winner_number) + " (heuristic is player: " + str(heuristic_player_number) + ")")
         save_score()
         reset_game()
       
@@ -165,6 +167,45 @@ def attack_heuristic(attack_player_num, receive_player_num):
       match_value[receive_player_num][0] += match_value[attack_player_num][attack_hand_num]
     else: 
       match_value[receive_player_num][1] += match_value[attack_player_num][attack_hand_num]
+      
+def attack_heuristic_save_life(attack_player_num, receive_player_num):
+    attack_hand_num = 0
+    
+    # 自分のどちらの手で攻撃するかの決定
+    if(match_value[attack_player_num][0] >= 5):
+      attack_hand_num = 1
+    elif(match_value[attack_player_num][1] >= 5):
+      attack_hand_num = 0
+      
+    # 自分のいずれかの手で攻撃した際に相手を倒せる場合
+    elif((match_value[attack_player_num][0] + match_value[receive_player_num][0] >= 5) | (match_value[attack_player_num][0] + match_value[receive_player_num][1] >= 5) ):
+      attack_hand_num = 0
+    elif((match_value[attack_player_num][1] + match_value[receive_player_num][0] >= 5) | (match_value[attack_player_num][1] + match_value[receive_player_num][1] >= 5) ):
+      attack_hand_num = 1
+    # 自分のいずれの手で攻撃した際に相手を倒せない場合
+    elif(match_value[attack_player_num][0] < match_value[attack_player_num][1]):
+      attack_hand_num = 0
+    else:
+      attack_hand_num = 1
+
+
+    # 相手のどちらかの手を攻撃するかの決定と攻撃
+    if (match_value[receive_player_num][0] >= 5):
+      match_value[receive_player_num][1] += match_value[attack_player_num][attack_hand_num]
+    elif (match_value[receive_player_num][1] >= 5):
+      match_value[receive_player_num][0] += match_value[attack_player_num][attack_hand_num]
+      
+    # 自分のいずれかの手で攻撃した際に相手を倒せる場合
+    elif(match_value[attack_player_num][attack_hand_num] + match_value[receive_player_num][0] >= 5):
+      match_value[receive_player_num][0] += match_value[attack_player_num][attack_hand_num]
+    elif(match_value[attack_player_num][attack_hand_num] + match_value[receive_player_num][1] >= 5):
+      match_value[receive_player_num][1] += match_value[attack_player_num][attack_hand_num]
+    # 自分のいずれの手で攻撃した際に相手を倒せない場合
+    elif(match_value[receive_player_num][0] < match_value[receive_player_num][1]):
+      match_value[receive_player_num][0] += match_value[attack_player_num][attack_hand_num]
+    else:
+      match_value[receive_player_num][1] += match_value[attack_player_num][attack_hand_num]
+
       
 def save_score():
     #json形式への書き出しと保存

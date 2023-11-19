@@ -12,7 +12,8 @@ winner_number = -1
 player0_win_count = 0
 player1_win_count = 0
 turn_count = 1
-  
+
+
 
 def main(): 
   # ゲーム画面を初期化
@@ -57,6 +58,17 @@ def main():
           else:
             attack_random(1, 0)
           print (str(match_value[0]) +"<-" + str(match_value[1]))
+        
+        # ログの記録
+        new_log = {
+          turn_count: "(" + str(match_value[0][0]) + ", " + str(match_value[0][1]) + ") : (" + str(match_value[1][0]) + ", " + str(match_value[1][1]) +")",
+        }
+        with open('data/log.json', 'r') as json_file:
+          log_data = json.load(json_file)
+          log_data.append(new_log)
+        with open('data/log.json', 'w') as json_file:
+          json.dump(log_data, json_file, indent=2)
+        
         turn_count += 1
       # ゲームが終わっている場合
       else:
@@ -216,7 +228,7 @@ def save_score():
     #json形式への書き出しと保存
   new_data = {
       #"match_value": match_value,
-      "match_sum: ": player0_win_count + player1_win_count, 
+      "match_sum": player0_win_count + player1_win_count, 
       "player0_win": player1_win_count,
       "player1_win": player1_win_count
   }

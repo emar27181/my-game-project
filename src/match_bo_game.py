@@ -39,14 +39,7 @@ def main():
           attack_random(1, 0)
         turn_count += 1
       else:
-        turn_count = 1
-        match_value[0][0] = 1
-        match_value[0][1] = 1
-        match_value[1][0] = 1
-        match_value[1][1] = 1
-        #match_value = [[1,1], [1,1]]
-        #print("winner is player: " +  str(winner_number))
-        print("player0_win: " + str(player0_win_count) + ", player1_win: " + str(player1_win_count))
+        reset_game()
       
       clock.tick(fps)
       
@@ -69,6 +62,17 @@ def main():
               pygame.quit()
               sys.exit()
               
+              
+def reset_game():
+  global turn_count
+  turn_count = 1
+  match_value[0][0] = 1
+  match_value[0][1] = 1
+  match_value[1][0] = 1
+  match_value[1][1] = 1
+  #match_value = [[1,1], [1,1]]
+  #print("winner is player: " +  str(winner_number))
+  print("player0_win: " + str(player0_win_count) + ", player1_win: " + str(player1_win_count))
               
 def is_game_looped():
   global player0_win_count

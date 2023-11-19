@@ -12,7 +12,11 @@ winner_number = -1
 player0_win_count = 0
 player1_win_count = 0
 turn_count = 1
-new_log = {}
+heuristic_player_number = 0
+new_log = {
+  "heuristic_player_number": heuristic_player_number
+}
+
 
 
 def main(): 
@@ -33,7 +37,7 @@ def main():
   clock = pygame.time.Clock()  # クロックオブジェクトの初期化
   fps = 60  # フレームレートの設定
   global turn_count
-  heuristic_player_number = 0
+  global heuristic_player_number
   
   # 繰り返し画面を描画 
   while True:
@@ -49,7 +53,9 @@ def main():
             attack_heuristic_save_life(0, 1)
           else:
             attack_random(0, 1)
+
           print (str(match_value[0]) +"->" + str(match_value[1]))
+          new_log[turn_count] = str(match_value[0]) +"->" + str(match_value[1])
         # 後攻プレイヤーの行動
         else:
           if((heuristic_player_number == 1) | (heuristic_player_number == 2)):
@@ -57,10 +63,12 @@ def main():
             attack_heuristic_save_life(1, 0)
           else:
             attack_random(1, 0)
+
           print (str(match_value[0]) +"<-" + str(match_value[1]))
-        
+          new_log[turn_count] = (str(match_value[0]) +"<-" + str(match_value[1]))
+
+
         # 変数の更新
-        new_log[turn_count] =  "(" + str(match_value[0][0]) + ", " + str(match_value[0][1]) + ") : (" + str(match_value[1][0]) + ", " + str(match_value[1][1]) +")"
         turn_count += 1
         
       # ゲームが終わっている場合
@@ -104,7 +112,9 @@ def initialize_variables():
   match_value[0][1] = 1
   match_value[1][0] = 1
   match_value[1][1] = 1
-  new_log = {}
+  new_log = {
+    "heuristic_player_number": heuristic_player_number
+  }
 
 def is_game_looped():
   global player0_win_count
@@ -220,11 +230,6 @@ def attack_heuristic_save_life(attack_player_num, receive_player_num):
 def save_log():
 
   # ログの記録
-  """
-  new_log = {
-    turn_count: "(" + str(match_value[0][0]) + ", " + str(match_value[0][1]) + ") : (" + str(match_value[1][0]) + ", " + str(match_value[1][1]) +")",
-  }
-  """
   global new_log
   with open('data/log.json', 'r') as json_file:
     log_data = json.load(json_file)

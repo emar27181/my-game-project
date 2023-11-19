@@ -9,6 +9,7 @@ winner_number = -1
 
 player0_win_count = 0
 player1_win_count = 0
+turn_count = 1
   
 
 def main(): 
@@ -26,7 +27,8 @@ def main():
   text_rect.center = (screen_width // 2, screen_height // 2)
   clock = pygame.time.Clock()  # クロックオブジェクトの初期化
   fps = 60  # フレームレートの設定
-  turn_count = 1
+  global turn_count
+  
   # 繰り返し画面を描画 
   while True:
       screen.fill(black)  
@@ -35,8 +37,10 @@ def main():
       if(is_game_looped()):
         if (turn_count % 2 == 1):
           attack_random(0, 1)
+          # attack_heuristic(0, 1)
         else:
-          attack_random(1, 0)
+          #attack_random(1, 0)
+          attack_heuristic(1, 0)
         turn_count += 1
       else:
         reset_game()
@@ -44,7 +48,8 @@ def main():
       clock.tick(fps)
       
       # 確認用出力
-      #print(winer_number)
+      # print(winer_number)
+      # print(turn_count)
       print (match_value)
       
       # 表示テキストの更新
@@ -114,6 +119,31 @@ def attack_random(attack_player_num, receive_player_num):
     elif (random() < 0.5) :
       match_value[receive_player_num][0] += match_value[attack_player_num][attack_hand_num]
     else:
+      match_value[receive_player_num][1] += match_value[attack_player_num][attack_hand_num]
+      
+def attack_heuristic(attack_player_num, receive_player_num):
+    attack_hand_num = 0
+    
+    # 自分のどちらの手で攻撃するかの決定
+    if(match_value[attack_player_num][0] >= 5):
+      attack_hand_num = 1
+    elif(match_value[attack_player_num][1] >= 5):
+      attack_hand_num = 0
+      
+    elif(match_value[attack_player_num][0] > match_value[attack_player_num][1]):
+      attack_hand_num = 0
+    else:
+      attack_hand_num = 1
+
+    # 相手のどちらかの手を攻撃するかの決定と攻撃
+    if (match_value[receive_player_num][0] >= 5):
+      match_value[receive_player_num][1] += match_value[attack_player_num][attack_hand_num]
+    elif (match_value[receive_player_num][1] >= 5):
+      match_value[receive_player_num][0] += match_value[attack_player_num][attack_hand_num]
+      
+    elif (match_value[receive_player_num][0] > match_value[receive_player_num][1]):
+      match_value[receive_player_num][0] += match_value[attack_player_num][attack_hand_num]
+    else: 
       match_value[receive_player_num][1] += match_value[attack_player_num][attack_hand_num]
 
 if __name__ == "__main__":

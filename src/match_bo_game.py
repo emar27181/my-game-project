@@ -24,7 +24,7 @@ def main():
   text = "(" +  str(match_value[0][0]) + ", " +  str(match_value[0][1]) + ") : (" + str(match_value[1][0])  + ", " + str(match_value[1][1]) + ")"
   text_surface = font.render(text, True, (255, 255, 255))  # 白色の文字
   text_rect = text_surface.get_rect()
-  text_rect.center = (screen_width // 2, screen_height // 2)
+  text_rect.center = (screen_width // 2, screen_height // 2 )
   clock = pygame.time.Clock()  # クロックオブジェクトの初期化
   fps = 60  # フレームレートの設定
   global turn_count
@@ -43,6 +43,8 @@ def main():
           attack_heuristic(1, 0)
         turn_count += 1
       else:
+        text_score = "player0 win rate = " + str(player0_win_count / (player0_win_count + player1_win_count) * 100) + ", player1 win rate = " + str(player1_win_count / (player0_win_count + player1_win_count) * 100)
+        print(text_score)
         reset_game()
       
       clock.tick(fps)
@@ -50,13 +52,18 @@ def main():
       # 確認用出力
       # print(winer_number)
       # print(turn_count)
-      print (match_value)
+      # print (match_value)
       
       # 表示テキストの更新
       text = "(" +  str(match_value[0][0]) + ", " +  str(match_value[0][1]) + ") : (" + str(match_value[1][0])  + ", " + str(match_value[1][1]) + ")"
       text_surface = font.render(text, True, (255, 255, 255))  # 白色の文字
       text_rect = text_surface.get_rect()
       text_rect.center = (screen_width // 2, screen_height // 2)
+      if((player1_win_count != 0) & (player0_win_count != 0)):
+        text_score = "player0 win rate = " + str(player0_win_count / (player0_win_count + player1_win_count) * 100) + ", player1 win rate = " + str(player1_win_count / (player0_win_count + player1_win_count) * 100)
+        text_score_surface = font.render(text_score, True, (255, 255, 255))  # 白色の文字
+        text_score_rect = text_score_surface.get_rect()
+        text_score_rect.center = (screen_width // 2, screen_height // 2 + 10)
       
       # 画面を更新 
       pygame.display.update()
@@ -84,12 +91,12 @@ def is_game_looped():
   global player1_win_count
   global winner_number
   if((match_value[0][0] >= 5) & (match_value[0][1] >= 5)):
-    print("winner is player: 1")
+    # print("winner is player: 1")
     winner_number = 1
     player0_win_count += 1
     return False
   elif ((match_value[1][0] >= 5) & (match_value[1][1] >= 5)):
-    print("winner is player: 0")
+    # print("winner is player: 0")
     winner_number = 0
     player1_win_count += 1
     return False

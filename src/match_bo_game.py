@@ -12,7 +12,7 @@ winner_number = -1
 player0_win_count = 0
 player1_win_count = 0
 turn_count = 1
-
+new_log = {}
 
 
 def main(): 
@@ -59,15 +59,18 @@ def main():
             attack_random(1, 0)
           print (str(match_value[0]) +"<-" + str(match_value[1]))
         
-        save_log()
+        new_log[turn_count] =  "(" + str(match_value[0][0]) + ", " + str(match_value[0][1]) + ") : (" + str(match_value[1][0]) + ", " + str(match_value[1][1]) +")"
         
+        # save_log()
         turn_count += 1
+        
       # ゲームが終わっている場合
       else:
         text_score = "player0 win rate = " + str(player0_win_count / (player0_win_count + player1_win_count) * 100) + ", player1 win rate = " + str(player1_win_count / (player0_win_count + player1_win_count) * 100)
         # print(text_score)
         print("winner is player: " + str(winner_number) + " (heuristic is player: " + str(heuristic_player_number) + ")")
         # save_score()
+        save_log()
         reset_game()
       
       clock.tick(fps)
@@ -96,11 +99,13 @@ def main():
               
 def reset_game():
   global turn_count
+  global new_log
   turn_count = 1
   match_value[0][0] = 1
   match_value[0][1] = 1
   match_value[1][0] = 1
   match_value[1][1] = 1
+  new_log = {}
   #match_value = [[1,1], [1,1]]
   #print("winner is player: " +  str(winner_number))
   #print("player0_win: " + str(player0_win_count) + ", player1_win: " + str(player1_win_count))
@@ -219,9 +224,12 @@ def attack_heuristic_save_life(attack_player_num, receive_player_num):
 def save_log():
 
   # ログの記録
+  """
   new_log = {
     turn_count: "(" + str(match_value[0][0]) + ", " + str(match_value[0][1]) + ") : (" + str(match_value[1][0]) + ", " + str(match_value[1][1]) +")",
   }
+  """
+  global new_log
   with open('data/log.json', 'r') as json_file:
     log_data = json.load(json_file)
     log_data.append(new_log)

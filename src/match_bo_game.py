@@ -59,9 +59,8 @@ def main():
             attack_random(1, 0)
           print (str(match_value[0]) +"<-" + str(match_value[1]))
         
+        # 変数の更新
         new_log[turn_count] =  "(" + str(match_value[0][0]) + ", " + str(match_value[0][1]) + ") : (" + str(match_value[1][0]) + ", " + str(match_value[1][1]) +")"
-        
-        # save_log()
         turn_count += 1
         
       # ゲームが終わっている場合
@@ -69,7 +68,8 @@ def main():
         text_score = "player0 win rate = " + str(player0_win_count / (player0_win_count + player1_win_count) * 100) + ", player1 win rate = " + str(player1_win_count / (player0_win_count + player1_win_count) * 100)
         print("winner is player: " + str(winner_number) + " (heuristic is player: " + str(heuristic_player_number) + ")")
         # save_score()
-        save_log()
+        if (winner_number != heuristic_player_number):
+          save_log()
         initialize_variables()
       
       clock.tick(fps)
@@ -94,8 +94,8 @@ def main():
               print(text_score)
               pygame.quit()
               sys.exit()
-              
-              
+
+
 def initialize_variables():
   global turn_count
   global new_log
@@ -105,10 +105,7 @@ def initialize_variables():
   match_value[1][0] = 1
   match_value[1][1] = 1
   new_log = {}
-  #match_value = [[1,1], [1,1]]
-  #print("winner is player: " +  str(winner_number))
-  #print("player0_win: " + str(player0_win_count) + ", player1_win: " + str(player1_win_count))
-              
+
 def is_game_looped():
   global player0_win_count
   global player1_win_count

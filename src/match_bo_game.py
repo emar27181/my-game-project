@@ -3,6 +3,7 @@ import random
 import pygame
 from pygame.locals import *
 from random import random
+import math
 
 match_value = [[1, 1], [1, 1]]
 winner_number = -1
@@ -56,14 +57,12 @@ def main():
       
       # 表示テキストの更新
       text = "(" +  str(match_value[0][0]) + ", " +  str(match_value[0][1]) + ") : (" + str(match_value[1][0])  + ", " + str(match_value[1][1]) + ")"
+      if((player1_win_count != 0) & (player0_win_count != 0)):
+        text_score = "| player0 win: " + str(math.floor(player0_win_count / (player0_win_count + player1_win_count) * 100)) + "%, player1 win: " + str(math.floor(player1_win_count / (player0_win_count + player1_win_count) * 100)) + "%"
+        text = text + text_score
       text_surface = font.render(text, True, (255, 255, 255))  # 白色の文字
       text_rect = text_surface.get_rect()
       text_rect.center = (screen_width // 2, screen_height // 2)
-      if((player1_win_count != 0) & (player0_win_count != 0)):
-        text_score = "player0 win rate = " + str(player0_win_count / (player0_win_count + player1_win_count) * 100) + ", player1 win rate = " + str(player1_win_count / (player0_win_count + player1_win_count) * 100)
-        text_score_surface = font.render(text_score, True, (255, 255, 255))  # 白色の文字
-        text_score_rect = text_score_surface.get_rect()
-        text_score_rect.center = (screen_width // 2, screen_height // 2 + 10)
       
       # 画面を更新 
       pygame.display.update()

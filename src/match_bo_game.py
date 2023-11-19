@@ -117,12 +117,12 @@ def is_game_looped():
   
   if((match_value[0][0] >= 5) & (match_value[0][1] >= 5)):
     winner_number = 1
-    player0_win_count += 1
+    player1_win_count += 1
     return False
   
   elif ((match_value[1][0] >= 5) & (match_value[1][1] >= 5)):
     winner_number = 0
-    player1_win_count += 1
+    player0_win_count += 1
     return False
   
   else:

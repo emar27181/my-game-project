@@ -44,7 +44,7 @@ def main():
       if(is_game_looped()):
         # 先攻プレイヤーの行動
         if (turn_count % 2 == 1):
-          if(heuristic_player_number == 0):
+          if((heuristic_player_number == 0) | (heuristic_player_number == 2)):
             # attack_heuristic(0, 1)
             attack_heuristic_save_life(0, 1)
           else:
@@ -52,7 +52,7 @@ def main():
           print (str(match_value[0]) +"->" + str(match_value[1]))
         # 後攻プレイヤーの行動
         else:
-          if(heuristic_player_number == 1):
+          if((heuristic_player_number == 1) | (heuristic_player_number == 2)):
             # attack_heuristic(1, 0)
             attack_heuristic_save_life(1, 0)
           else:

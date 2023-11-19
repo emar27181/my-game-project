@@ -50,7 +50,8 @@ def main():
         if (turn_count % 2 == 1):
           if((heuristic_player_number == 0) | (heuristic_player_number == 2)):
             # attack_heuristic(0, 1)
-            attack_heuristic_save_life(0, 1)
+            # attack_heuristic_save_life(0, 1)
+            attack_heuristic_save_life_re(0, 1)
           else:
             attack_random(0, 1)
 
@@ -60,7 +61,8 @@ def main():
         else:
           if((heuristic_player_number == 1) | (heuristic_player_number == 2)):
             # attack_heuristic(1, 0)
-            attack_heuristic_save_life(1, 0)
+            # attack_heuristic_save_life(1, 0)
+            attack_heuristic_save_life_re(1, 0)
           else:
             attack_random(1, 0)
 
@@ -223,6 +225,56 @@ def attack_heuristic_save_life(attack_player_num, receive_player_num):
       receive_hand_num = 0
     else:
       receive_hand_num = 1
+      
+    # 攻撃
+    match_value[receive_player_num][receive_hand_num] += match_value[attack_player_num][attack_hand_num]
+    
+    
+def attack_heuristic_save_life_re(attack_player_num, receive_player_num):
+    attack_hand_num = 0
+    receive_hand_num = 0
+    
+    # 自分のどちらの手で攻撃するかの決定
+    if(match_value[attack_player_num][0] >= 5):
+      attack_hand_num = 1
+    elif(match_value[attack_player_num][1] >= 5):
+      attack_hand_num = 0
+      
+    # 自分のいずれかの手で攻撃した際に相手を倒せる場合
+    elif((match_value[attack_player_num][0] + match_value[receive_player_num][0] >= 5) | (match_value[attack_player_num][0] + match_value[receive_player_num][1] >= 5) ):
+      attack_hand_num = 0
+    elif((match_value[attack_player_num][1] + match_value[receive_player_num][0] >= 5) | (match_value[attack_player_num][1] + match_value[receive_player_num][1] >= 5) ):
+      attack_hand_num = 1
+    # 自分のいずれの手で攻撃した際に相手を倒せない場合
+    elif(match_value[attack_player_num][0] < match_value[attack_player_num][1]):
+      attack_hand_num = 0
+    else:
+      attack_hand_num = 1
+
+
+    # 相手のどちらかの手を攻撃するかの決定
+    if (match_value[receive_player_num][0] >= 5):
+      receive_hand_num = 1
+    elif (match_value[receive_player_num][1] >= 5):
+      receive_hand_num = 0
+      
+    # 自分のいずれかの手で攻撃した際に相手を倒せる場合
+    elif(match_value[attack_player_num][attack_hand_num] + match_value[receive_player_num][0] >= 5):
+      receive_hand_num = 0
+    elif(match_value[attack_player_num][attack_hand_num] + match_value[receive_player_num][1] >= 5):
+      receive_hand_num = 1
+    # 自分のいずれの手で攻撃した際に相手を倒せない場合
+    elif(match_value[receive_player_num][0] < match_value[receive_player_num][1]):
+      receive_hand_num = 0
+    else:
+      receive_hand_num = 1
+      
+    # 攻めが[2,2], 受けが[1,2]の場合
+    if((match_value[attack_player_num][0] == match_value[attack_player_num][1] == 2)):
+      if((match_value[receive_player_num][0] == 1)&(match_value[receive_player_num][1] == 2)):
+        receive_hand_num = 1
+      elif((match_value[receive_player_num][0] == 2)&(match_value[receive_player_num][1] == 1)):
+        receive_hand_num = 0
       
     # 攻撃
     match_value[receive_player_num][receive_hand_num] += match_value[attack_player_num][attack_hand_num]

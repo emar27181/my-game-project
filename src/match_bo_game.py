@@ -198,9 +198,9 @@ def attack_heuristic_save_life(attack_player_num, receive_player_num):
       attack_hand_num = 0
       
     # 自分のいずれかの手で攻撃した際に相手を倒せる場合
-    elif((match_value[attack_player_num][0] + match_value[receive_player_num][0] >= 5) | (match_value[attack_player_num][0] + match_value[receive_player_num][1] >= 5) ):
+    elif(((match_value[attack_player_num][0] + match_value[receive_player_num][0] >= 5)&(match_value[receive_player_num][0] < 5)) | ((match_value[attack_player_num][0] + match_value[receive_player_num][1] >= 5)&(match_value[receive_player_num][1] < 5)) ):
       attack_hand_num = 0
-    elif((match_value[attack_player_num][1] + match_value[receive_player_num][0] >= 5) | (match_value[attack_player_num][1] + match_value[receive_player_num][1] >= 5) ):
+    elif(((match_value[attack_player_num][1] + match_value[receive_player_num][0] >= 5)&(match_value[receive_player_num][0] < 5)) | ((match_value[attack_player_num][1] + match_value[receive_player_num][1] >= 5)&(match_value[receive_player_num][1] < 5)) ):
       attack_hand_num = 1
     # 自分のいずれの手で攻撃した際に相手を倒せない場合
     elif(match_value[attack_player_num][0] < match_value[attack_player_num][1]):
@@ -241,9 +241,9 @@ def attack_heuristic_save_life_re(attack_player_num, receive_player_num):
       attack_hand_num = 0
       
     # 自分のいずれかの手で攻撃した際に相手を倒せる場合
-    elif((match_value[attack_player_num][0] + match_value[receive_player_num][0] >= 5) | (match_value[attack_player_num][0] + match_value[receive_player_num][1] >= 5) ):
+    elif(((match_value[attack_player_num][0] + match_value[receive_player_num][0] >= 5)&(match_value[receive_player_num][0] < 5)) | ((match_value[attack_player_num][0] + match_value[receive_player_num][1] >= 5)&(match_value[receive_player_num][1] < 5)) ):
       attack_hand_num = 0
-    elif((match_value[attack_player_num][1] + match_value[receive_player_num][0] >= 5) | (match_value[attack_player_num][1] + match_value[receive_player_num][1] >= 5) ):
+    elif(((match_value[attack_player_num][1] + match_value[receive_player_num][0] >= 5)&(match_value[receive_player_num][0] < 5)) | ((match_value[attack_player_num][1] + match_value[receive_player_num][1] >= 5)&(match_value[receive_player_num][1] < 5)) ):
       attack_hand_num = 1
     # 自分のいずれの手で攻撃した際に相手を倒せない場合
     elif(match_value[attack_player_num][0] < match_value[attack_player_num][1]):

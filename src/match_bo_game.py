@@ -285,9 +285,11 @@ def save_log():
   global new_log
   with open('data/log.json', 'r') as json_file:
     log_data = json.load(json_file)
-    log_data.append(new_log)
-  with open('data/log.json', 'w') as json_file:
-    json.dump(log_data, json_file, indent=2)
+    if new_log not in log_data:
+      log_data.append(new_log)
+      
+      with open('data/log.json', 'w') as json_file:
+        json.dump(log_data, json_file, indent=2)
         
 
 def save_score():

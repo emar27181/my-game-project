@@ -162,6 +162,34 @@ def attack_random(attack_player_num, receive_player_num):
     else:
       match_value[receive_player_num][1] += match_value[attack_player_num][attack_hand_num]
       
+def attack_mod_random(attack_player_num, receive_player_num):
+    attack_hand_num = 0
+    receive_hand_num = 0
+    
+    # 自分のどちらの手で攻撃するかの決定
+    if(match_value[attack_player_num][0] >= 5):
+      attack_hand_num = 1
+    elif(match_value[attack_player_num][1] >= 5):
+      attack_hand_num = 0
+    
+    elif(random() < 0.5):
+      attack_hand_num= 0
+    else :
+      attack_hand_num = 1
+
+    # 相手のどちらかの手を攻撃するかの決定と攻撃
+    if (match_value[receive_player_num][0] >= 5):
+      receive_hand_num = 1
+    elif (match_value[receive_player_num][1] >= 5):
+      receive_hand_num = 0
+      
+    elif (random() < 0.5) :
+      receive_hand_num = 0
+    else:
+      receive_hand_num = 1
+
+    match_value[receive_player_num][receive_hand_num] = (match_value[attack_player_num][attack_hand_num] + match_value[receive_player_num][receive_hand_num]) % 5
+      
 def attack_heuristic(attack_player_num, receive_player_num):
     attack_hand_num = 0
     
@@ -291,6 +319,49 @@ def save_log():
       with open('data/log.json', 'w') as json_file:
         json.dump(log_data, json_file, indent=2)
         
+        
+def attack_mod_heuristic_save_life(attack_player_num, receive_player_num):
+    attack_hand_num = 0
+    receive_hand_num = 0
+    
+    # 自分のどちらの手で攻撃するかの決定
+    if(match_value[attack_player_num][0] >= 5):
+      attack_hand_num = 1
+    elif(match_value[attack_player_num][1] >= 5):
+      attack_hand_num = 0
+      
+    # 自分のいずれかの手で攻撃した際に相手を倒せる場合
+    elif(((match_value[attack_player_num][0] + match_value[receive_player_num][0] >= 5)&(match_value[receive_player_num][0] < 5)) | ((match_value[attack_player_num][0] + match_value[receive_player_num][1] >= 5)&(match_value[receive_player_num][1] < 5)) ):
+      attack_hand_num = 0
+    elif(((match_value[attack_player_num][1] + match_value[receive_player_num][0] >= 5)&(match_value[receive_player_num][0] < 5)) | ((match_value[attack_player_num][1] + match_value[receive_player_num][1] >= 5)&(match_value[receive_player_num][1] < 5)) ):
+      attack_hand_num = 1
+    # 自分のいずれの手で攻撃した際に相手を倒せない場合
+    elif(match_value[attack_player_num][0] < match_value[attack_player_num][1]):
+      attack_hand_num = 0
+    else:
+      attack_hand_num = 1
+
+
+    # 相手のどちらかの手を攻撃するかの決定
+    if (match_value[receive_player_num][0] >= 5):
+      receive_hand_num = 1
+    elif (match_value[receive_player_num][1] >= 5):
+      receive_hand_num = 0
+      
+    # 自分のいずれかの手で攻撃した際に相手を倒せる場合
+    elif(match_value[attack_player_num][attack_hand_num] + match_value[receive_player_num][0] >= 5):
+      receive_hand_num = 0
+    elif(match_value[attack_player_num][attack_hand_num] + match_value[receive_player_num][1] >= 5):
+      receive_hand_num = 1
+    # 自分のいずれの手で攻撃した際に相手を倒せない場合
+    elif(match_value[receive_player_num][0] < match_value[receive_player_num][1]):
+      receive_hand_num = 0
+    else:
+      receive_hand_num = 1
+      
+    # 攻撃
+    match_value[receive_player_num][receive_hand_num] = (match_value[attack_player_num][attack_hand_num] + match_value[receive_player_num][receive_hand_num]) % 5
+    
 
 def save_score():
   #json形式への書き出しと保存

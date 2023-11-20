@@ -12,7 +12,7 @@ winner_number = -1
 player0_win_count = 0
 player1_win_count = 0
 turn_count = 1
-heuristic_player_number = 0
+heuristic_player_number = 1
 new_log = {
   "heuristic_player_number": heuristic_player_number
 }
@@ -50,8 +50,8 @@ def main():
         if (turn_count % 2 == 1):
           if((heuristic_player_number == 0) | (heuristic_player_number == 2)):
             # attack_heuristic(0, 1)
-            # attack_heuristic_save_life(0, 1)
-            attack_heuristic_save_life_re(0, 1)
+            attack_heuristic_save_life(0, 1) # win 87.9%
+            # attack_heuristic_save_life_re(0, 1) # win 86.9%
           else:
             attack_random(0, 1)
 
@@ -61,8 +61,8 @@ def main():
         else:
           if((heuristic_player_number == 1) | (heuristic_player_number == 2)):
             # attack_heuristic(1, 0)
-            # attack_heuristic_save_life(1, 0)
-            attack_heuristic_save_life_re(1, 0)
+            attack_heuristic_save_life(1, 0) # win 93.9%
+            # attack_heuristic_save_life_re(1, 0) # win 87.3%
           else:
             attack_random(1, 0)
 

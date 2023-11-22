@@ -53,7 +53,8 @@ def main():
             attack_heuristic_save_life(0, 1) # win 87.9%
             # attack_heuristic_save_life_re(0, 1) # win 86.9%
           else:
-            attack_random(0, 1)
+            # attack_random(0, 1)
+            attack_user(0, 1)
 
           print (str(match_value[0]) +"->" + str(match_value[1]))
           new_log[turn_count] = str(match_value[0]) +"->" + str(match_value[1])
@@ -97,8 +98,6 @@ def main():
       # 画面を更新 
       pygame.display.update()
       
-      wait_for_key()
-      
       # 終了イベントを確認 
       for event in pygame.event.get():
           if event.type == QUIT:
@@ -110,15 +109,23 @@ def main():
 
 def wait_for_key():
     waiting = True
+    key = 0
     while waiting:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            
             elif event.type == pygame.KEYDOWN:
-                # キーが押されたら終了
+                if event.key == pygame.K_LEFT:
+                    key = 0
+                    print("0 is pressed")
+                elif event.key == pygame.K_RIGHT:
+                    key = 1
+                    print("1 is pressed")
                 waiting = False
-    print("waiting press any key")
+    # print("waiting press any key")
+    return key
 
 def initialize_variables():
   global turn_count
@@ -185,25 +192,19 @@ def attack_user(attack_player_num, receive_player_num):
       attack_hand_num = 1
     elif(match_value[attack_player_num][1] >= 5):
       attack_hand_num = 0
-    
-    elif(random() < 0.5):
-      attack_hand_num= 0
-    else :
-      attack_hand_num = 1
+    else:
+      attack_hand_num =  wait_for_key()
 
     # 相手のどちらかの手を攻撃するかの決定と攻撃
     if (match_value[receive_player_num][0] >= 5):
       receive_hand_num = 1
     elif (match_value[receive_player_num][1] >= 5):
       receive_hand_num = 0
-      
-    elif (random() < 0.5) :
-      receive_hand_num = 0
     else:
-      receive_hand_num = 1
+      receive_hand_num = wait_for_key()
 
     match_value[receive_player_num][receive_hand_num] += match_value[attack_player_num][attack_hand_num]
-    
+
 def attack_mod_random(attack_player_num, receive_player_num):
     attack_hand_num = 0
     receive_hand_num = 0

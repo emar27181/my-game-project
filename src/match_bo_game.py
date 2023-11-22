@@ -97,6 +97,8 @@ def main():
       # 画面を更新 
       pygame.display.update()
       
+      wait_for_key()
+      
       # 終了イベントを確認 
       for event in pygame.event.get():
           if event.type == QUIT:
@@ -105,6 +107,18 @@ def main():
               pygame.quit()
               sys.exit()
 
+
+def wait_for_key():
+    waiting = True
+    while waiting:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                # キーが押されたら終了
+                waiting = False
+    print("waiting press any key")
 
 def initialize_variables():
   global turn_count

@@ -12,7 +12,7 @@ winner_number = -1
 player0_win_count = 0
 player1_win_count = 0
 turn_count = 1
-heuristic_player_number = 1
+heuristic_player_number = 0
 new_log = {
   "heuristic_player_number": heuristic_player_number
 }
@@ -35,7 +35,7 @@ def main():
   text_rect = text_surface.get_rect()
   text_rect.center = (screen_width // 2, screen_height // 2 )
   clock = pygame.time.Clock()  # クロックオブジェクトの初期化
-  fps = 60  # フレームレートの設定
+  fps = 0.6  # フレームレートの設定
   global turn_count
   global heuristic_player_number
   
@@ -67,7 +67,8 @@ def main():
             attack_heuristic_save_life(1, 0) # win 93.9%
             # attack_heuristic_save_life_re(1, 0) # win 87.3%
           else:
-            attack_random(1, 0)
+            # attack_random(1, 0)
+            attack_user(1, 0)
 
           print (str(match_value[0]) +"<-" + str(match_value[1]))
           new_log[turn_count] = (str(match_value[0]) +"<-" + str(match_value[1]))

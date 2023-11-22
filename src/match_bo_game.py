@@ -43,6 +43,8 @@ def main():
   while True:
       screen.fill(black)  
       screen.blit(text_surface, text_rect)
+      # 画面を更新 
+      pygame.display.update()
       
       # ゲームが続いている場合
       if(is_game_looped()):
@@ -95,8 +97,7 @@ def main():
       text_rect = text_surface.get_rect()
       text_rect.center = (screen_width // 2, screen_height // 2)
       
-      # 画面を更新 
-      pygame.display.update()
+
       
       # 終了イベントを確認 
       for event in pygame.event.get():
